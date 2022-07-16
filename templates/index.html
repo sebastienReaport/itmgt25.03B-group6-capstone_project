@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+<!-- Insert Head Here -->
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+<script>
+    function goToPage(){
+        alert("Hello!")
+    }
+</script>
+{% endblock %}
+
+<!-- Insert Body Here -->
+{% block body %}
+<h1>Greetings</h1>
+<button onclick="goToPage()"> Click Me!</button>
+{% endblock %}
