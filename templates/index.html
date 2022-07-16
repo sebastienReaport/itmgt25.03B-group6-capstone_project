@@ -3,15 +3,22 @@
 <!-- Insert Head Here -->
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
-<script>
-    function goToPage(){
-        alert("Hello!")
-    }
-</script>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
-<h1>Greetings</h1>
-<button onclick="goToPage()"> Click Me!</button>
+<h1>Class Schedule</h1>
+<table>
+    <tr>
+        <th>Time</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
+</table>
 {% endblock %}
