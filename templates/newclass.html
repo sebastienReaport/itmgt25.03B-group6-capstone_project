@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+<!-- Insert Head Here -->
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+{% endblock %}
+
+<!-- Insert Body Here -->
+{% block body %}
+<h1>Add New Schedule</h1>
+<form action="http://localhost:5000/newclass", method = "POST">
+    <p>Class Name <input type="text" name="class_name" id="class_name"></p>
+    <p>Days: </p>
+    {% for day in days %}
+        <p>{{day}}: <input type="checkbox" name={{day}}></p>
+    {% endfor %}
+    <br>
+    <p>Times: </p>
+    {% for time in times %}
+        <p>{{time}}: <input type="checkbox" name={{time}}></p>
+    {% endfor %}
+    <p><input type = "submit" value = "Add New Class" /></p>
+</form>
+{% endblock %}

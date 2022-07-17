@@ -1,40 +1,28 @@
-from email.policy import default
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request
 from datetime import datetime
+import pandas as pd
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///schedules.db'
-db = SQLAlchemy(app)
 
-class reminders(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    reminder = db.Column(db.String(200), nullable=False)
-    reminder_type = db.Column(db.Integer, db.ForeignKey('type_of_reminder.id'), nullable=False, default=4)
-    reminder_urgency = db.Column(db.Integer, db.ForeignKey('type_of_urgency.id'), nullable=False, default=5)
-    reminder_deadline = db.Column(db.DateTime)
-    reminder_set = db.Column(db.DateTime, default=datetime.utcnow)
+#Create test dataframe
+days_with_classes = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+timeslots = ["Morning","Afternoon","Evening"]
+scheduleFillers = ["","",""]
 
-    def __repr__(self):
-        return '<reminders %r>' % reminders.id
-
-class type_of_reminder(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name_of_reminder_type = db.Column(db.String(200), nullable=False)
-
-    def __repr__(self):
-        return '<type_of_reminder %r>' % type_of_reminder.id
-
-class type_of_urgency(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name_of_reminder_urgency = db.Column(db.String(200), nullable=False)
-
-    def __repr__(self):
-        return '<type_of_urgency %r>' % type_of_urgency.id
+testdf = pd.DataFrame(timeslots,columns=["Time"])
+for day in days_with_classes:
+    testdf[day] = scheduleFillers
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', table = testdf)
+
+@app.route('/newclass', methods= ['POST','GET'])
+def add_new_class():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template('newclass.html', table = testdf, days = days_with_classes, times=timeslots)
 
 if __name__ == '__main__':
     app.run(debug=True)

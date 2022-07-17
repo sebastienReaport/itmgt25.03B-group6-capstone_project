@@ -7,5 +7,20 @@
 
 <!-- Insert Body Here -->
 {% block body %}
-<h1>Reminders</h1>
+<h1>Schedule</h1>
+<table>
+    <tr>
+        {% for header in table.columns.values %}
+            <th>{{header}}</th>
+        {% endfor %}
+    </tr>
+
+    {% for row in table.index.values %}
+        <tr>
+            {% for cell in table.loc[row].values %}
+                <td><a href="google.com">{{cell}}</a></td>
+            {% endfor %}  
+        </tr>
+    {% endfor %} 
+</table>
 {% endblock %}
