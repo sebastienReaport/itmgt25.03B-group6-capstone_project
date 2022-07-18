@@ -2,13 +2,18 @@
 
 <!-- Insert Head Here -->
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
-<h1>Schedule</h1>
-<table>
+<h1>My Class Schedule</h1>
+<div class="naviLinks">
+    <h2>Click on the class to edit it!</h2>
+    <h3><a href="/newclass">Add New Class</a></h3>
+    <h3><a href="/delete">Delete a Class</a></h3>
+</div>
+<table class="schedule">
     <tr>
         {% for header in table.columns.values %}
             <th>{{header}}</th>
@@ -25,7 +30,4 @@
         </tr>
     {% endfor %} 
 </table>
-
-<a href="/newclass">Add New Class</a>
-<a href="/delete">Delete a Class</a>
 {% endblock %}
