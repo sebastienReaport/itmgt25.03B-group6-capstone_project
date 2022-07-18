@@ -1,0 +1,21 @@
+.parameters{
+    display: grid;
+    grid-template-columns: 200px auto;
+}
+
+.days{
+    background-color: aqua;
+}
+
+.times{
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.timeslots{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 200px;
+    background-color: bisque;
+}

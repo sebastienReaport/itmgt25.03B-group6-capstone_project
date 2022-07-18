@@ -18,9 +18,14 @@
     {% for row in table.index.values %}
         <tr>
             {% for cell in table.loc[row].values %}
-                <td><a href="google.com">{{cell}}</a></td>
+                <td>
+                    <a href="/update/{{cell}}">{{cell}}</a>
+                </td>
             {% endfor %}  
         </tr>
     {% endfor %} 
 </table>
+
+<a href="/newclass">Add New Class</a>
+<a href="/delete">Delete a Class</a>
 {% endblock %}

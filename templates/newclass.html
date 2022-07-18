@@ -2,23 +2,18 @@
 
 <!-- Insert Head Here -->
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/newclass.css')}}">
+<script src="{{ url_for('static', filename='javascript/newclass.js')}}"></script>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
 <h1>Add New Schedule</h1>
-<form action="http://localhost:5000/newclass", method = "POST">
-    <p>Class Name <input type="text" name="class_name" id="class_name"></p>
-    <p>Days: </p>
-    {% for day in days %}
-        <p>{{day}}: <input type="checkbox" name={{day}}></p>
-    {% endfor %}
-    <br>
-    <p>Times: </p>
-    {% for time in times %}
-        <p>{{time}}: <input type="checkbox" name={{time}}></p>
-    {% endfor %}
-    <p><input type = "submit" value = "Add New Class" /></p>
+<form action="http://localhost:5000/newclass" method = "POST">
+    <p>Class Name: <input type="text" name="class_name" id="class_name"></p>
+    <p>Class Time Start: <input type="text" name="class_time_start" id="class_time_start"> Enter military time (e.g. 730, 1130)</p>
+    <p>Class Time End: <input type="text" name="class_time_end" id="class_time_end"> Enter military time (e.g. 730, 1130)</p>
+    <p>Days of Classes: <input type="text" name="days" id="days"> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
+    <p><input type = "submit" value = "submit" /></p>
 </form>
 {% endblock %}
