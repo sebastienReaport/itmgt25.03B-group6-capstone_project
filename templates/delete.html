@@ -8,6 +8,16 @@
 <!-- Insert Body Here -->
 {% block body %}
 
-{{classRecords[2]}}
+<h1>Delete a Class</h1>
+<form action="http://localhost:5000/delete" method = "POST">
+    <label for="classNames">Chose Class to Delete</label>
+    <br>
+    <select name="class_name" id="classNames">
+        {% for classRecord in classRecords %}
+        <option value={{classRecord["class_name"]}}>{{classRecord["class_name"]}}</option>
+        {% endfor %}
+    </select>
+    <p><input type = "submit" value = "Delete Class" /></p>
+</form>
 
 {% endblock %}
