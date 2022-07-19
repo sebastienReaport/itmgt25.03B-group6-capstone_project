@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+<!-- Insert Head Here -->
+{% block head %}
+
+{% endblock %}
+
+<!-- Insert Body Here -->
+{% block body %}
+
+<h1>Welcome to Class Schedule!</h1>
+<form action="http://localhost:5000/calendar" method = "POST">
+    <label for="login">Whose calendar do you want to access?</label>
+    <br>
+    <select name="username" id="login">
+        {% for users in listOfUsers %}
+        <option value={{users}}>{{users}}</option>
+        {% endfor %}
+    </select>
+    <p><input type = "submit" value = "Select User"/></p>
+</form>
+
+<h2>Or, you can create a new user!</h2>
+<form action="http://localhost:5000/" method = "POST">
+    <p>Username: <input type="text" name="newUser" id="newUser"></p>
+    <p><input type = "submit" value = "Create User"/></p>
+</form>
+
+<h2>You can also delete a user!</h2>
+<form action="http://localhost:5000/" method = "POST">
+    <label for="deleteUser">Which user do you want to delete?</label>
+    <br>
+    <select name="deleteUser" id="deleteUser">
+        {% for users in listOfUsers %}
+        <option value={{users}}>{{users}}</option>
+        {% endfor %}
+    </select>
+    <p><input type = "submit" value = "Delete User"/></p>
+</form>
+{% endblock %}

@@ -10,7 +10,7 @@
 
 <h1>Update class "{{recordToUpdate["class_name"]}}"</h1>
 <form action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST">
-    <p>Class Name: <input type="text" name="class_name" id="class_name" {{recordToUpdate["class_name"]}}></p>
+    <p>Class Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}></p>
     <p>Class Time Start: <input type="text" name="class_time_start" id="class_time_start" value={{recordToUpdate["class_time_start"]}}> Enter military time (e.g. 730, 1130)</p>
     <p>Class Time End: <input type="text" name="class_time_end" id="class_time_end" value={{recordToUpdate["class_time_end"]}}> Enter military time (e.g. 730, 1130)</p>
     <p>Days of Classes: <input type="text" name="days" id="days" value={{recordToUpdate["days"]}}> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
