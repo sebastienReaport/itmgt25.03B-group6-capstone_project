@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
 import pandas as pd
-import pickle
 import json
 
 app = Flask(__name__)
@@ -27,6 +26,11 @@ testdf = pd.DataFrame(timeSlots,columns=["Time"])
 for day in days_of_week:
     testdf[day] = scheduleFillers
 timeslot_and_index = dict(zip(timeSlots, testdf.index))
+
+#Create JSON file to store basic info
+calendarInfo = {"days": days_of_week, "timeslots": timeSlots}
+with open(".\\records\\calendarInfo.json", "w") as f:
+    json.dump(calendarInfo,f)
 
 #Create Classes List
 classRecords = list()
@@ -146,7 +150,17 @@ def index():
         listOfUserSchedules.update(updateUserInfo)
         with open(pathToSchedules, "w") as f:
             json.dump(listOfUserSchedules,f)
-    return render_template('calendar.html', table = testdf, currentUser = currentUser)
+
+    #Check current class
+    timeNow = int(datetime.now().strftime('%H%M'))
+    dayNow = datetime.now().strftime('%A')
+    currentClass = "none"
+    for record in classRecords:
+        daysWithClasses = record["days"].split(",")
+        if timeNow >= int(record["class_time_start"]) and timeNow < int(record["class_time_end"]) and dayNow in daysWithClasses:
+            currentClass = record["class_name"]
+            break
+    return render_template('calendar.html', table = testdf, currentUser = currentUser, currentClass = currentClass)
 
 @app.route('/newclass', methods= ['POST','GET'])
 def add_new_class():

@@ -34,8 +34,3 @@ function warning(e)
         e.preventDefault();
     }
 }
-
-function test(){
-    var testVar = '{{day_of_week}}';
-    alert(testVar);
-}

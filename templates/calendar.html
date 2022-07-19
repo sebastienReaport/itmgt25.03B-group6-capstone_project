@@ -7,28 +7,35 @@
 
 <!-- Insert Body Here -->
 {% block body %}
-<h1>{{currentUser}}'s Class Schedule</h1>
+<div class="center"><h1>{{currentUser}}'s Class Schedule</h1></div>
 <div class="naviLinks">
     <h2>Click on the class to edit it!</h2>
-    <button onclick="document.location='/newclass'">Add New Class</button>
-    <button onclick="document.location='/delete'">Delete a Class</button>
-    <button onclick="document.location='/'">Switch User</button>
+    {% if currentClass == "none"%}
+        <h2>You currently have no classes right now!</h2>
+    {% else %}
+        <h2>You currently have {{currentClass}} right now!</h2>
+    {% endif %}
+    <button class="button" onclick="document.location='/newclass'">Add New Class</button>
+    <button class="button" onclick="document.location='/delete'">Delete a Class</button>
+    <button class="button" onclick="document.location='/'">Switch User</button>
 </div>
-<table class="schedule">
-    <tr>
-        {% for header in table.columns.values %}
-            <th>{{header}}</th>
-        {% endfor %}
-    </tr>
-
-    {% for row in table.index.values %}
+<div class="center">
+    <table class="schedule">
         <tr>
-            {% for cell in table.loc[row].values %}
-                <td>
-                    <a href="/update/{{cell}}">{{cell}}</a>
-                </td>
-            {% endfor %}  
+            {% for header in table.columns.values %}
+                <th>{{header}}</th>
+            {% endfor %}
         </tr>
-    {% endfor %} 
-</table>
+
+        {% for row in table.index.values %}
+            <tr>
+                {% for cell in table.loc[row].values %}
+                    <td>
+                        <a href="/update/{{cell}}">{{cell}}</a>
+                    </td>
+                {% endfor %}  
+            </tr>
+        {% endfor %} 
+    </table>
+</div>
 {% endblock %}
