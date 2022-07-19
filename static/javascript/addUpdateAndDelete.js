@@ -17,8 +17,25 @@ function validateAddClassForm() {
     days = days.split(",")
     for(i = 0; i<days.length; i++){
         if(days_of_week.includes(days[i]) == false){
-            alert("'" + days[i] + "' is an invalid day!")
+            alert("'" + days[i] + "' is an invalid day!");
             return false;
         }
     }
+}
+
+function warning(e)
+{
+    var x = document.forms["classDeleter"]["class_name"].value;
+    if (x == ""){
+        alert("There are currently no classes to delete.");
+            e.preventDefault();
+    }
+    else if(!confirm("Do you really want to delete this class?")){
+        e.preventDefault();
+    }
+}
+
+function test(){
+    var testVar = '{{day_of_week}}';
+    alert(testVar);
 }

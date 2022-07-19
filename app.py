@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
 import pandas as pd
 import pickle
+import json
 
 app = Flask(__name__)
 
@@ -30,8 +31,8 @@ timeslot_and_index = dict(zip(timeSlots, testdf.index))
 #Create Classes List
 classRecords = list()
 currentUser = ""
-pathToRecords = ".\\records\\users"
-pathToSchedules = ".\\records\\schedules"
+pathToRecords = ".\\records\\users.json"
+pathToSchedules = ".\\records\\schedules.json"
 
 #Function that updates table
 def edit_table(record, action):
@@ -62,8 +63,8 @@ def edit_table(record, action):
 #Function that get users
 def get_users():
     try:
-        with open(pathToRecords, "rb") as f:
-            listOfUsers = pickle.load(f)
+        with open(pathToRecords, "r") as f:
+            listOfUsers = json.load(f)
     except:
         listOfUsers = list()
     finally:
@@ -72,8 +73,8 @@ def get_users():
 #Function that gets users' schedules
 def get_user_schedule():
     try:
-        with open(pathToSchedules, "rb") as f:
-            listOfUserSchedules = pickle.load(f)
+        with open(pathToSchedules, "r") as f:
+            listOfUserSchedules = json.load(f)
     except:
         listOfUserSchedules = dict()
     finally:
@@ -102,8 +103,8 @@ def login():
                     return redirect(url_for('newUser'))
             #Add new username to database
             listOfUsers.append(formResponse.get("newUser"))
-            with open(pathToRecords, "wb") as f:
-                    pickle.dump(listOfUsers,f)
+            with open(pathToRecords, "w") as f:
+                    json.dump(listOfUsers,f)
         elif "deleteUser" in formResponse:
             #Check if username already exists and then delete it
             listOfUsers = get_users()
@@ -113,11 +114,11 @@ def login():
                 listOfUserSchedules = get_user_schedule()
                 if userToDelete in listOfUserSchedules.keys():
                     del listOfUserSchedules[userToDelete]
-                    with open(pathToSchedules, "wb") as f:
-                        pickle.dump(listOfUserSchedules,f)
+                    with open(pathToSchedules, "w") as f:
+                        json.dump(listOfUserSchedules,f)
             #Update database            
-            with open(pathToRecords, "wb") as f:
-                pickle.dump(listOfUsers,f)
+            with open(pathToRecords, "w") as f:
+                json.dump(listOfUsers,f)
         return render_template('login.html', listOfUsers = listOfUsers)
     else:
         listOfUsers = get_users()
@@ -143,8 +144,8 @@ def index():
         listOfUserSchedules = get_user_schedule()
         updateUserInfo = {currentUser: classRecords}
         listOfUserSchedules.update(updateUserInfo)
-        with open(pathToSchedules, "wb") as f:
-            pickle.dump(listOfUserSchedules,f)
+        with open(pathToSchedules, "w") as f:
+            json.dump(listOfUserSchedules,f)
     return render_template('calendar.html', table = testdf, currentUser = currentUser)
 
 @app.route('/newclass', methods= ['POST','GET'])

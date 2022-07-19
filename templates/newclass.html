@@ -3,7 +3,12 @@
 <!-- Insert Head Here -->
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/newclass.css')}}">
-<script src="{{ url_for('static', filename='javascript/newclass.js')}}"> </script>
+<script src="{{ url_for('static', filename='javascript/addUpdateAndDelete.js')}}"> 
+    function test(){
+        var testVar = '{{day_of_week}}';
+        alert(testVar);
+}
+</script>
 {% endblock %}
 
 <!-- Insert Body Here -->
@@ -17,4 +22,5 @@
     <p><input type = "submit" value = "Add the Class" /></p>
 </form>
 <button onclick="document.location='/calendar'">Return to Calendar</button>
+<button onclick="test()">Dev Test</button>
 {% endblock %}
