@@ -145,7 +145,7 @@ def index():
         listOfUserSchedules.update(updateUserInfo)
         with open(pathToSchedules, "wb") as f:
             pickle.dump(listOfUserSchedules,f)
-    return render_template('calendar.html', table = testdf)
+    return render_template('calendar.html', table = testdf, currentUser = currentUser)
 
 @app.route('/newclass', methods= ['POST','GET'])
 def add_new_class():

@@ -2,14 +2,14 @@
 
 <!-- Insert Head Here -->
 {% block head %}
-
+<script src="{{ url_for('static', filename='javascript/delete.js')}}"></script>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
 
 <h1>Delete a Class</h1>
-<form action="http://localhost:5000/delete" method = "POST">
+<form name = "classDeleter" action="http://localhost:5000/delete" method = "POST">
     <label for="classNames">Chose Class to Delete</label>
     <br>
     <select name="class_name" id="classNames">
@@ -17,7 +17,7 @@
         <option value={{classRecord["class_name"]}}>{{classRecord["class_name"]}}</option>
         {% endfor %}
     </select>
-    <p><input type = "submit" value = "Delete Class" /></p>
+    <p><input type = "submit" value = "Delete Class" onclick="warning(event)"/></p>
 </form>
 <button onclick="document.location='/calendar'">Return to Calendar</button>
 

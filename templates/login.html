@@ -2,14 +2,14 @@
 
 <!-- Insert Head Here -->
 {% block head %}
-
+<script src="{{ url_for('static', filename='javascript/login.js')}}"></script>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
 
 <h1>Welcome to Class Schedule!</h1>
-<form action="http://localhost:5000/calendar" method = "POST">
+<form name = "selectUser" action="http://localhost:5000/calendar" method = "POST" onsubmit="return validateSelectUserForm()">
     <label for="login">Whose calendar do you want to access?</label>
     <br>
     <select name="username" id="login">
@@ -21,7 +21,7 @@
 </form>
 
 <h2>Or, you can create a new user!</h2>
-<form action="http://localhost:5000/" method = "POST">
+<form name = "newUserForm" action="http://localhost:5000/" method = "POST" onsubmit="return validateNameForm()" required>
     <p>Username: <input type="text" name="newUser" id="newUser"></p>
     <p><input type = "submit" value = "Create User"/></p>
 </form>
@@ -35,6 +35,6 @@
         <option value={{users}}>{{users}}</option>
         {% endfor %}
     </select>
-    <p><input type = "submit" value = "Delete User"/></p>
+    <p><input type = "submit" value = "Delete User" onclick="warning(event)"/></p>
 </form>
 {% endblock %}

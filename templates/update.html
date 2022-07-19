@@ -2,14 +2,14 @@
 
 <!-- Insert Head Here -->
 {% block head %}
-
+<script src="{{ url_for('static', filename='javascript/newclass.js')}}"> </script>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
 
 <h1>Update class "{{recordToUpdate["class_name"]}}"</h1>
-<form action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST">
+<form name = "addClass" action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST" onsubmit="return validateAddClassForm()">
     <p>Class Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}></p>
     <p>Class Time Start: <input type="text" name="class_time_start" id="class_time_start" value={{recordToUpdate["class_time_start"]}}> Enter military time (e.g. 730, 1130)</p>
     <p>Class Time End: <input type="text" name="class_time_end" id="class_time_end" value={{recordToUpdate["class_time_end"]}}> Enter military time (e.g. 730, 1130)</p>

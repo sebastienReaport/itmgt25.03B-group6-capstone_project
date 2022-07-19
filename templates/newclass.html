@@ -3,13 +3,13 @@
 <!-- Insert Head Here -->
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/newclass.css')}}">
-<script src="{{ url_for('static', filename='javascript/newclass.js')}}"></script>
+<script src="{{ url_for('static', filename='javascript/newclass.js')}}"> </script>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
 <h1>Add New Schedule</h1>
-<form action="http://localhost:5000/newclass" method = "POST">
+<form name = "addClass" action="http://localhost:5000/newclass" method = "POST" onsubmit="return validateAddClassForm()">
     <p>Class Name: <input type="text" name="class_name" id="class_name"></p>
     <p>Class Time Start: <input type="text" name="class_time_start" id="class_time_start"> Enter military time (e.g. 730, 1130)</p>
     <p>Class Time End: <input type="text" name="class_time_end" id="class_time_end"> Enter military time (e.g. 730, 1130)</p>
