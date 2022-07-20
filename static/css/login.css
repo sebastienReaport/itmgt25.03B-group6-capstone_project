@@ -26,3 +26,9 @@ td,th{
     border: 1px solid;
     padding: 10px;
 }
+
+.header {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 50% auto auto auto;
+}

@@ -2,12 +2,18 @@
 
 <!-- Insert Head Here -->
 {% block head %}
+<script src="{{ url_for('static', filename='javascript/index.js')}}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
-<div class="center"><h1>{{currentUser}}'s Class Schedule</h1></div>
+<div class="header">
+    <div class="center"><h1>{{currentUser}}'s Schedule</h1></div>
+    <h1 id="day">Monday</h1>
+    <h1 id="date">07/20/2022</h1>
+    <h1 id="time">11:11:11</h1>
+</div>
 <div class="naviLinks">
     <h2>Click on the class to edit it!</h2>
     {% if currentClass == "none"%}
