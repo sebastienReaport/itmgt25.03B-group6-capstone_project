@@ -8,6 +8,12 @@
 .button {
     height: 50px;
     width: 100px;
+    background-color: #ceffcf;
+}
+
+.button:hover {
+    transition: 0.2s ease-in;
+    background-color: #498f4a;
 }
 
 .center {
@@ -31,4 +37,18 @@ table {
 td,th{
     border: 1px solid;
     padding: 10px;
+}
+
+body {
+    background-color: rgb(213, 253, 253);
+}
+
+.schedulenew {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: oblique;
+    font-size: larger;
 }
