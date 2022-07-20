@@ -1,0 +1,28 @@
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.actionBar{
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto auto auto;
+    column-gap: 10px;
+    width: 100%;
+}
+
+.newUser{
+    align-self: center;
+}
+
+table {
+    border: 1px solid;
+    width: 90%;
+}
+
+td,th{
+    border: 1px solid;
+    padding: 10px;
+}

@@ -23,15 +23,12 @@ while intervalStart < endTime:
 scheduleFillers = list()
 for timeslots in timeSlots:
     scheduleFillers.append("")
-testdf = pd.DataFrame(timeSlots,columns=["Time"])
+scheduleTable = pd.DataFrame(timeSlots,columns=["Time"])
+generalTable = pd.DataFrame(timeSlots,columns=["Time"])
 for day in days_of_week:
-    testdf[day] = scheduleFillers
-timeslot_and_index = dict(zip(timeSlots, testdf.index))
-
-#Create JSON file to store basic info
-calendarInfo = {"days": days_of_week, "timeslots": timeSlots}
-with open(".\\records\\calendarInfo.json", "w") as f:
-    json.dump(calendarInfo,f)
+    scheduleTable[day] = scheduleFillers
+    generalTable[day] = scheduleFillers
+timeslot_and_index = dict(zip(timeSlots, scheduleTable.index)) #Same for generalTable
 
 #Create Classes List
 classRecords = list()
@@ -39,8 +36,8 @@ currentUser = ""
 pathToRecords = ".\\records\\users.json"
 pathToSchedules = ".\\records\\schedules.json"
 
-#Function that updates table
-def edit_table(record, action):
+#Function that updates schedule table
+def edit_schedule_table(record, action):
     startTime = int(record['class_time_start'])
     endTime = int(record['class_time_end'])
     intervalStart = startTime
@@ -59,11 +56,36 @@ def edit_table(record, action):
     if action == "Add":
         for time in timeSlotIndeces:
             for day in days_with_classes:
-                testdf.loc[time][day] = record["class_name"]
+                scheduleTable.loc[time][day] = record["class_name"]
     elif action == "Delete":
         for time in timeSlotIndeces:
             for day in days_with_classes:
-                testdf.loc[time][day] = ""
+                scheduleTable.loc[time][day] = ""
+
+#Function that adds to general table
+def edit_general_table(record, user):
+    startTime = int(record['class_time_start'])
+    endTime = int(record['class_time_end'])
+    intervalStart = startTime
+    timeSlotIndeces = list()
+    while intervalStart < endTime:
+        if intervalStart%100 == 0:
+            intervalEnd = intervalStart + 30
+        else:
+            intervalEnd = intervalStart + 70
+        newInterval = str(intervalStart)+"-"+str(intervalEnd)
+        timeSlotIndeces.append(timeslot_and_index[newInterval])
+        intervalStart = intervalEnd
+    #Get Days
+    days_with_classes = list(record['days'].split(","))
+    #Perform Add to table
+    for time in timeSlotIndeces:
+        for day in days_with_classes:
+            if generalTable.loc[time][day] == "":
+                generalTable.loc[time][day] = list()
+                generalTable.loc[time][day].append(f"{user}: {record['class_name']}")
+            else:
+                generalTable.loc[time][day].append(f"{user}: {record['class_name']}")
 
 #Function that get users
 def get_users():
@@ -88,26 +110,14 @@ def get_user_schedule():
 #Function that adds schedules to table
 def add_classes_to_table():
     for record in classRecords:
-        edit_table(record, "Add")
+        edit_schedule_table(record, "Add")
 
 #Function that deletes all classes
 def del_classes_in_table():
     for record in classRecords:
-        edit_table(record, "Delete")
+        edit_schedule_table(record, "Delete")
 
-#Function that checks if new/updated class is in conflict
-def check_time_conflict(record, formResponse, webpage):
-    record_start = int(record["class_time_start"])
-    record_end = int(record["class_time_end"])
-    form_start = int(formResponse.get("class_time_start"))
-    form_end = int(formResponse.get("class_time_end"))
-    class_name = record["class_name"]
-
-    if form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
-        error = f"Schedule is in conflict with {class_name}!"
-        return render_template(webpage, table = testdf, error = error)
-
-#App Code
+#App Code for Login Page
 @app.route('/', methods= ['POST','GET'])
 def login():
     if request.method == "POST":
@@ -136,13 +146,31 @@ def login():
             #Update database            
             with open(pathToRecords, "w") as f:
                 json.dump(listOfUsers,f)
-        return render_template('login.html', listOfUsers = listOfUsers)
+        return redirect(url_for('login'))
     else:
         listOfUsers = get_users()
+        listOfUserSchedules = get_user_schedule()
         del_classes_in_table()
         classRecords.clear()
-        return render_template('login.html', listOfUsers = listOfUsers)
 
+        #Clear General table
+        for day in days_of_week:
+            generalTable[day] = scheduleFillers
+
+        #Check for New Users with no Sched
+        listOfUsersWithSched = listOfUsers.copy()
+        for user in listOfUsers:
+            if user not in listOfUserSchedules.keys():
+                listOfUsersWithSched.remove(user)
+
+        #Display Combined Calendar
+        for user in listOfUsersWithSched:
+            for record in listOfUserSchedules[user]:
+                edit_general_table(record, user)
+
+        return render_template('login.html', listOfUsers = listOfUsers, table = generalTable, timeSlots = timeSlots)
+
+#App Code for Calendar Page
 @app.route('/calendar', methods= ['POST','GET'])
 def index():
     global currentUser
@@ -173,24 +201,25 @@ def index():
         if timeNow >= int(record["class_time_start"]) and timeNow < int(record["class_time_end"]) and dayNow in daysWithClasses:
             currentClass = record["class_name"]
             break
-    return render_template('calendar.html', table = testdf, currentUser = currentUser, currentClass = currentClass)
+    return render_template('calendar.html', table = scheduleTable, currentUser = currentUser, currentClass = currentClass)
 
+#App Code for New Class Page
 @app.route('/newclass', methods= ['POST','GET'])
 def add_new_class():
     if request.method == "POST":
         formResponse = request.form
         form_start = int(formResponse.get("class_time_start"))
         form_end = int(formResponse.get("class_time_end"))
-        class_name = formResponse.get("class_name")
         formDaysWithClasses = formResponse.get("days").split(",")
         #Check if class exists
         for records in classRecords:
             record_start = int(records["class_time_start"])
             record_end = int(records["class_time_end"])
+            class_name = records["class_name"]
             daysWithClasses = records["days"].split(",")
             if records["class_name"] == formResponse.get("class_name"):
                 error = f"Class '{class_name}' already exists! Write a new name or edit the class instead!"
-                return render_template('newclass.html', table = testdf, error = error)
+                return render_template('newclass.html', table = scheduleTable, error = error)
             elif form_start >= record_start and form_start <= record_end or form_end >= record_start and form_end <= record_end:
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
@@ -201,6 +230,7 @@ def add_new_class():
     else:
         return render_template('newclass.html')
 
+#App Code for Edit Class Page
 @app.route('/update/<className>', methods= ['POST','GET'])
 def update(className):
     if request.method == "POST":
@@ -213,9 +243,8 @@ def update(className):
             record_name = records["class_name"]
             record_start = int(records["class_time_start"])
             record_end = int(records["class_time_end"])
-            record_className = records["class_name"]
             daysWithClasses = records["days"].split(",")
-            if (form_start >= record_start and form_start <= record_end or form_end >= record_start and form_end <= record_end) and record_className != className:
+            if (form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end) and record_name != className:
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {record_name}!"
@@ -223,7 +252,7 @@ def update(className):
         #Update Class when Clear
         for records in classRecords:
             if records["class_name"] == className:
-                edit_table(record = records, action = "Delete")
+                edit_schedule_table(records, "Delete")
                 classRecords.remove(records)
                 classRecords.append(formResponse)
                 return redirect(url_for('index'))
@@ -236,13 +265,14 @@ def update(className):
                 break
         return render_template('update.html', recordToUpdate = recordToUpdate)
 
+#App Code for Delete Class Page
 @app.route('/delete/', methods= ['POST','GET'])
 def delete():
     if request.method == "POST":
         formResponse = request.form
         for records in classRecords:
             if records["class_name"] == formResponse.get("class_name"):
-                edit_table(record = records, action = "Delete")
+                edit_schedule_table(records, "Delete")
                 #Remove from record
                 classRecords.remove(records)
                 return redirect(url_for('index'))
