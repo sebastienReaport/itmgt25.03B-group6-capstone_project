@@ -4,6 +4,7 @@ import pandas as pd
 import json
 
 app = Flask(__name__)
+app.secret_key = b'wOwIdonTRealLYKnowWhatThisIsfor'
 
 #Create Schedule Base dataframe
 days_of_week = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
@@ -94,6 +95,18 @@ def del_classes_in_table():
     for record in classRecords:
         edit_table(record, "Delete")
 
+#Function that checks if new/updated class is in conflict
+def check_time_conflict(record, formResponse, webpage):
+    record_start = int(record["class_time_start"])
+    record_end = int(record["class_time_end"])
+    form_start = int(formResponse.get("class_time_start"))
+    form_end = int(formResponse.get("class_time_end"))
+    class_name = record["class_name"]
+
+    if form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
+        error = f"Schedule is in conflict with {class_name}!"
+        return render_template(webpage, table = testdf, error = error)
+
 #App Code
 @app.route('/', methods= ['POST','GET'])
 def login():
@@ -166,19 +179,48 @@ def index():
 def add_new_class():
     if request.method == "POST":
         formResponse = request.form
+        form_start = int(formResponse.get("class_time_start"))
+        form_end = int(formResponse.get("class_time_end"))
+        class_name = formResponse.get("class_name")
+        formDaysWithClasses = formResponse.get("days").split(",")
         #Check if class exists
         for records in classRecords:
+            record_start = int(records["class_time_start"])
+            record_end = int(records["class_time_end"])
+            daysWithClasses = records["days"].split(",")
             if records["class_name"] == formResponse.get("class_name"):
-                return redirect(url_for('index'))
+                error = f"Class '{class_name}' already exists! Write a new name or edit the class instead!"
+                return render_template('newclass.html', table = testdf, error = error)
+            elif form_start >= record_start and form_start <= record_end or form_end >= record_start and form_end <= record_end:
+                for classDay in daysWithClasses:
+                    if classDay in formDaysWithClasses:
+                        error = f"Schedule is in conflict with {class_name}!"
+                        return render_template('newclass.html', error = error)
         classRecords.append(formResponse)
         return redirect(url_for('index'))
     else:
-        return render_template('newclass.html', table = testdf)
+        return render_template('newclass.html')
 
 @app.route('/update/<className>', methods= ['POST','GET'])
 def update(className):
     if request.method == "POST":
+        #First Check for Conflicts
         formResponse = request.form
+        form_start = int(formResponse.get("class_time_start"))
+        form_end = int(formResponse.get("class_time_end"))
+        formDaysWithClasses = formResponse.get("days").split(",")
+        for records in classRecords:
+            record_name = records["class_name"]
+            record_start = int(records["class_time_start"])
+            record_end = int(records["class_time_end"])
+            record_className = records["class_name"]
+            daysWithClasses = records["days"].split(",")
+            if (form_start >= record_start and form_start <= record_end or form_end >= record_start and form_end <= record_end) and record_className != className:
+                for classDay in daysWithClasses:
+                    if classDay in formDaysWithClasses:
+                        error = f"Schedule is in conflict with {record_name}!"
+                        return render_template('update.html', recordToUpdate = formResponse, error = error)
+        #Update Class when Clear
         for records in classRecords:
             if records["class_name"] == className:
                 edit_table(record = records, action = "Delete")

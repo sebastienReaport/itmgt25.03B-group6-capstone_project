@@ -8,6 +8,12 @@
 <!-- Insert Body Here -->
 {% block body %}
 
+<!-- Error Messages -->
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+
+<!-- Content Proper -->
 <h1>Update class "{{recordToUpdate["class_name"]}}"</h1>
 <form name = "addClass" action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST" onsubmit="return validateAddClassForm()">
     <p>Class Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}></p>
