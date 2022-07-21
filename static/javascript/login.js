@@ -42,9 +42,7 @@ function get_time(){
   month = format_month(month);
   day=get_day(day);
 
-  document.getElementById('time').innerHTML = h +":"+ m +":"+ s;
-  document.getElementById('day').innerHTML = day;
-  document.getElementById('date').innerHTML = month +"/"+ date +"/"+ year;
+  document.getElementById('day').innerHTML = day + "&emsp;&emsp;" + (month +"/"+ date +"/"+ year) + "&emsp;&emsp;" + (h +":"+ m +":"+ s);
   setTimeout(get_time, 1000);
 }
 
