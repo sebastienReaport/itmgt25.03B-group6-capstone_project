@@ -36,3 +36,16 @@ td,th{
 body {
     background-color: rgb(213, 253, 253);
 }
+
+.selectUser input {
+    height: 30px;
+    width: 100px;
+    background-color: #ceffcf;
+    border-width: thin;
+}
+
+.selectUser input:hover {
+    transition: 0.2s ease-in;
+    background-color: #498f4a;
+}
+
