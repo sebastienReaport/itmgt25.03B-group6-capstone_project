@@ -33,10 +33,12 @@ td,th{
     padding: 10px;
 }
 
+
+/*Header Formatting*/
 .header {
     display: grid;
     width: 100%;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto 145px;
     background-color: rgb(5,108,108);
 }
 
@@ -57,6 +59,13 @@ td,th{
 }
 
 .time{
+    font-family: "Proxima";
+    text-align: right;
+    padding-right: 20px;
+    color: rgb(213, 253, 253);
+}
+
+.day{
     font-family: "Proxima";
     text-align: right;
     padding-right: 20px;
