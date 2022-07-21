@@ -12,17 +12,25 @@
 
 <!-- Error Messages -->
 {% if error %}
-    <p>{{ error }}</p>
+    <div class="error">{{ error }}</div>
 {% endif %}
 
 <!-- Content Proper -->
 <h1>Add New Schedule</h1>
 <form name = "addClass" action="http://localhost:5000/newclass" method = "POST" onsubmit="return validateAddClassForm()">
-    <p>Class Name: <input type="text" name="class_name" id="class_name"> Enter a unique class name, class names cannot be reapeated</p>
-    <p>Class Time Start: <input type="text" name="class_time_start" id="class_time_start"> Enter military time (e.g. 730, 1130)</p>
-    <p>Class Time End: <input type="text" name="class_time_end" id="class_time_end"> Enter military time (e.g. 730, 1130)</p>
-    <p>Days of Classes: <input type="text" name="days" id="days"> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
+    {% if formResponse %}
+    <p>Class Name: <input type="text" name="class_name" id="class_name" value={{formResponse["class_name"]}}> Enter a unique class name, class names cannot be reapeated</p>
+    <p>Class Time Start: <input type="number" name="class_time_start" id="class_time_start" value={{formResponse["class_time_start"]}}> Enter military time, hours and half-hours only (e.g. 700, 1130)</p>
+    <p>Class Time End: <input type="number" name="class_time_end" id="class_time_end" value={{formResponse["class_time_end"]}}> Enter military time, hours and half-hours only (e.g. 700, 1130)</p>
+    <p>Days of Classes: <input type="text" name="days" id="days" value={{formResponse["days"]}}> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
     <p><input type = "submit" value = "Add the Class" /></p>
+    {% else %}
+        <p>Class Name: <input type="text" name="class_name" id="class_name"> Enter a unique class name, class names cannot be reapeated</p>
+        <p>Class Time Start: <input type="number" name="class_time_start" id="class_time_start"> Enter military time, hours and half-hours only (e.g. 700, 1130)</p>
+        <p>Class Time End: <input type="number" name="class_time_end" id="class_time_end"> Enter military time, hours and half-hours only (e.g. 700, 1130)</p>
+        <p>Days of Classes: <input type="text" name="days" id="days"> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
+        <p><input type = "submit" value = "Add the Class" /></p>
+    {% endif %}
 </form>
 <button onclick="document.location='/calendar'">Return to Calendar</button>
 {% endblock %}

@@ -36,9 +36,15 @@
         {% for row in table.index.values %}
             <tr>
                 {% for cell in table.loc[row].values %}
-                    <td>
-                        <a href="/update/{{cell}}">{{cell}}</a>
-                    </td>
+                    {% if cell in timeSlots %}
+                        <td>
+                            {{cell}} 
+                        </td>
+                    {% else %}
+                        <td>
+                            <a href="/update/{{cell}}">{{cell}}</a>
+                        </td>
+                    {% endif %}
                 {% endfor %}  
             </tr>
         {% endfor %} 

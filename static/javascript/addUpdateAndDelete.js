@@ -1,4 +1,7 @@
 const days_of_week = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+const startTime = 700;
+const endTime = 2200;
+
 
 function validateAddClassForm() {
     var class_name = document.forms["addClass"]["class_name"].value;
@@ -11,6 +14,12 @@ function validateAddClassForm() {
         return false;
     }else if (parseInt(class_time_start) >= parseInt(class_time_end)){
         alert("Your class times will not work!");
+        return false;
+    }else if (parseInt(class_time_start) < startTime || parseInt(class_time_start) > endTime){
+        alert("Your class times go beyond the scope of the calendar!");
+        return false;
+    }else if (parseInt(class_time_end) < startTime || parseInt(class_time_end) > endTime){
+        alert("Your class times go beyond the scope of the calendar!");
         return false;
     }
 
@@ -30,7 +39,7 @@ function warning(e)
         alert("There are currently no classes to delete.");
             e.preventDefault();
     }
-    else if(!confirm("Do you really want to delete this class?")){
+    else if(!confirm("Do you really want to delete?")){
         e.preventDefault();
     }
 }

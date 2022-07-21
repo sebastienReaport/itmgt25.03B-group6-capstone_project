@@ -3,6 +3,7 @@
 <!-- Insert Head Here -->
 {% block head %}
 <script src="{{ url_for('static', filename='javascript/addUpdateAndDelete.js')}}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/delete.css')}}">
 {% endblock %}
 
 <!-- Insert Body Here -->
@@ -17,7 +18,8 @@
         <option value={{classRecord["class_name"]}}>{{classRecord["class_name"]}}</option>
         {% endfor %}
     </select>
-    <p><input type = "submit" value = "Delete Class" onclick="warning(event)"/></p>
+    <p><input type = "submit" name = "submit" value = "Delete Class" onclick="warning(event)"/></p>
+    <p><input type = "submit" name = "submit" value = "Delete All Classes" onclick="warning(event)"/></p>
 </form>
 <button onclick="document.location='/calendar'">Return to Calendar</button>
 

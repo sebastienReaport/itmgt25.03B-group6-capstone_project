@@ -8,8 +8,8 @@ app.secret_key = b'wOwIdonTRealLYKnowWhatThisIsfor'
 
 #Create Schedule Base dataframe
 days_of_week = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
-startTime = 700
-endTime = 2130
+startTime = 700 
+endTime = 2200
 timeSlots = list()
 intervalStart = startTime
 while intervalStart < endTime:
@@ -201,7 +201,7 @@ def index():
         if timeNow >= int(record["class_time_start"]) and timeNow < int(record["class_time_end"]) and dayNow in daysWithClasses:
             currentClass = record["class_name"]
             break
-    return render_template('calendar.html', table = scheduleTable, currentUser = currentUser, currentClass = currentClass)
+    return render_template('calendar.html', table = scheduleTable, currentUser = currentUser, currentClass = currentClass, timeSlots = timeSlots)
 
 #App Code for New Class Page
 @app.route('/newclass', methods= ['POST','GET'])
@@ -219,12 +219,12 @@ def add_new_class():
             daysWithClasses = records["days"].split(",")
             if records["class_name"] == formResponse.get("class_name"):
                 error = f"Class '{class_name}' already exists! Write a new name or edit the class instead!"
-                return render_template('newclass.html', table = scheduleTable, error = error)
-            elif form_start >= record_start and form_start <= record_end or form_end >= record_start and form_end <= record_end:
+                return render_template('newclass.html', table = scheduleTable, error = error, formResponse = formResponse)
+            elif form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {class_name}!"
-                        return render_template('newclass.html', error = error)
+                        return render_template('newclass.html', error = error, formResponse = formResponse)
         classRecords.append(formResponse)
         return redirect(url_for('index'))
     else:
@@ -270,12 +270,17 @@ def update(className):
 def delete():
     if request.method == "POST":
         formResponse = request.form
-        for records in classRecords:
-            if records["class_name"] == formResponse.get("class_name"):
+        if formResponse["submit"] == "Delete Class":
+            for records in classRecords:
+                if records["class_name"] == formResponse.get("class_name"):
+                    edit_schedule_table(records, "Delete")
+                    classRecords.remove(records)
+        elif formResponse["submit"] == "Delete All Classes":
+            recordsToDelete = classRecords.copy()
+            for records in recordsToDelete:
                 edit_schedule_table(records, "Delete")
-                #Remove from record
                 classRecords.remove(records)
-                return redirect(url_for('index'))
+        return redirect(url_for('index'))
     else:
         return render_template('delete.html', classRecords = classRecords)
 
