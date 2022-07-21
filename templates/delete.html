@@ -8,19 +8,26 @@
 
 <!-- Insert Body Here -->
 {% block body %}
+<div class="header">
+    <div class="title"><h1>{{currentUser}}'s Schedule</h1></div>
+    <h1 id="day" class="day">Monday 07/20/2022</h1>
+    <h1 id="time"class="time">11:11:11</h1>
+</div>
 
-<h1>Delete a Class</h1>
-<form name = "classDeleter" action="http://localhost:5000/delete" method = "POST">
-    <label for="classNames">Chose Class to Delete</label>
-    <br>
-    <select name="class_name" id="classNames">
-        {% for classRecord in classRecords %}
-        <option value={{classRecord["class_name"]}}>{{classRecord["class_name"]}}</option>
-        {% endfor %}
-    </select>
-    <p><input type = "submit" name = "submit" value = "Delete Class" onclick="warning(event)"/></p>
-    <p><input type = "submit" name = "submit" value = "Delete All Classes" onclick="warning(event)"/></p>
-</form>
-<button onclick="document.location='/calendar'">Return to Calendar</button>
+<div class="classDeleter">
+    <h1>Delete a Class</h1>
+    <form name = "classDeleter" action="http://localhost:5000/delete" method = "POST">
+        <label for="classNames">Chose Class to Delete</label>
+        <br>
+        <select name="class_name" id="classNames">
+            {% for classRecord in classRecords %}
+            <option value={{classRecord["class_name"]}}>{{classRecord["class_name"]}}</option>
+            {% endfor %}
+        </select>
+        <p><input type = "submit" name = "submit" value = "Delete Class" onclick="warning(event)"/></p>
+        <p><div class="allClassesDelete"><input type = "submit" name = "submit" value = "Delete All Classes" onclick="warning(event)"/></div></p>
+    </form>
+    <button onclick="document.location='/calendar'">Return to Calendar</button>
+</div>
 
 {% endblock %}

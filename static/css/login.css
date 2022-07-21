@@ -23,6 +23,10 @@
     align-self: center;
 }
 
+.selectUser {
+    margin-left: 60px;
+}
+
 table {
     border: 1px solid;
     width: 90%;
@@ -75,17 +79,41 @@ td,th{
 body {
     background-color: rgb(213, 253, 253);
     margin: 0px;
+    background-image: url(schedule_img.png);
 }
 
 .selectUser input {
     height: 30px;
     width: 100px;
-    background-color: #ceffcf;
+    background-color:  rgb(155, 244, 244);
     border-width: thin;
 }
 
 .selectUser input:hover {
     transition: 0.2s ease-in;
-    background-color: #498f4a;
+    background-color: rgb(8,164,164);
 }
 
+.deleteUser input {
+    height: 30px;
+    width: 100px;
+    background-color:  rgb(155, 244, 244);
+    border-width: thin;
+}
+
+.deleteUser input:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
+}
+
+.newUser input[type=submit] {
+    height: 30px;
+    width: 100px;
+    background-color:  rgb(155, 244, 244);
+    border-width: thin;
+}
+
+.newUser input[type=submit]:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
+}

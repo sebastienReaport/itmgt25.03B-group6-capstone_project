@@ -19,8 +19,7 @@ function get_time(){
     day=get_day(day);
 
     document.getElementById('time').innerHTML = h +":"+ m +":"+ s;
-    document.getElementById('day').innerHTML = day;
-    document.getElementById('date').innerHTML = month +"/"+ date +"/"+ year;
+    document.getElementById('day').innerHTML = day + "&emsp;" + (month +"/"+ date +"/"+ year);
     setTimeout(get_time, 1000);
 }
 
