@@ -1,7 +1,27 @@
+/* Fonts */
 @font-face {
     font-family: "Proxima";
     src: url("../fonts/ProximaNovaFont.otf");
 }
+
+@font-face {
+    font-family: 'RobotoNormal';
+    font-style: normal;
+    font-weight: 300;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+    font-family: 'RobotoBold';
+    font-style: normal;
+    font-weight: 700;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* End of Fonts */
 
 .parameters{
     display: grid;
@@ -88,6 +108,7 @@ body {
 /* End of Header Formatting */
 
 .addClass input[type=submit] {
+    font-family: 'RobotoNormal';
     height: 30px;
     width: 100px;
     background-color:  rgb(155, 244, 244);
@@ -100,14 +121,29 @@ body {
 }
 
 .addClass button {
+    font-family: "RobotoBold";
+    font-size: large;
+    color: rgb(3,70,70);
     height: 50px;
-    width: 100px;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color:  rgb(155, 244, 244);
-    border-width: thin;
+    border-radius: 10px;
+    position:absolute;
+    right: 20px;
 }
 
 .addClass button:hover {
     transition: 0.2s ease-in;
     background-color: rgb(8,164,164);
+}
+
+.addClass h1 {
+    font-family: "RobotoBold";
+}
+
+.addClass {
+    font-family: 'RobotoNormal';
 }
 

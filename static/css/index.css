@@ -90,6 +90,7 @@ body {
 /*Navigation Panel Formatting*/
 .naviLinks {
     font-family: "RobotoNormal";
+    font-size: small;
     color: rgb(5,108,108);
     display: grid;
     align-items: center;
