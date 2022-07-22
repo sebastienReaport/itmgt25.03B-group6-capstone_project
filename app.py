@@ -233,6 +233,12 @@ def add_new_class():
 #App Code for Edit Class Page
 @app.route('/update/<className>', methods= ['POST','GET'])
 def update(className):
+    recordToUpdate = dict()
+    for records in classRecords:
+        if records["class_name"] == className:
+            recordToUpdate.update(records)
+            break
+    
     if request.method == "POST":
         #First Check for Conflicts
         formResponse = request.form
@@ -244,11 +250,14 @@ def update(className):
             record_start = int(records["class_time_start"])
             record_end = int(records["class_time_end"])
             daysWithClasses = records["days"].split(",")
-            if (form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end) and record_name != className:
+            if record_name == formResponse.get("class_name") and formResponse.get("class_name") != className:
+                error = f"Class '{record_name}' already exists! Write a new name instead!"
+                return render_template('update.html', recordToUpdate = recordToUpdate, error = error, currentUser = currentUser, className = className)
+            if form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {record_name}!"
-                        return render_template('update.html', recordToUpdate = formResponse, error = error, currentUser = currentUser)
+                        return render_template('update.html', recordToUpdate = recordToUpdate, error = error, currentUser = currentUser, className = className)
         #Update Class when Clear
         for records in classRecords:
             if records["class_name"] == className:
@@ -257,13 +266,7 @@ def update(className):
                 classRecords.append(formResponse)
                 return redirect(url_for('index'))
     else:
-        #Find Record
-        recordToUpdate = dict()
-        for records in classRecords:
-            if records["class_name"] == className:
-                recordToUpdate.update(records)
-                break
-        return render_template('update.html', recordToUpdate = recordToUpdate, currentUser = currentUser)
+        return render_template('update.html', recordToUpdate = recordToUpdate, currentUser = currentUser, className = className)
 
 #App Code for Delete Class Page
 @app.route('/delete/', methods= ['POST','GET'])

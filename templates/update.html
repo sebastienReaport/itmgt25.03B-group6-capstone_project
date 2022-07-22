@@ -9,11 +9,6 @@
 <!-- Insert Body Here -->
 {% block body %}
 
-<!-- Error Messages -->
-{% if error %}
-    <div class="error">{{ error }}</div>
-{% endif %}
-
 <!-- Content Proper -->
 <div class="header">
     <div class="title"><h1>Scheduler</h1></div>
@@ -22,13 +17,20 @@
     <h1 id="time"class="time">11:11:11</h1>
 </div>
 
-<h1>Update class "{{recordToUpdate["class_name"]}}"</h1>
-<form name = "addClass" action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST" onsubmit="return validateAddClassForm()">
-    <p>Class Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}></p>
-    <p>Class Time Start: <input type="number" name="class_time_start" id="class_time_start" value={{recordToUpdate["class_time_start"]}}> Enter military time (e.g. 730, 1130)</p>
-    <p>Class Time End: <input type="number" name="class_time_end" id="class_time_end" value={{recordToUpdate["class_time_end"]}}> Enter military time (e.g. 730, 1130)</p>
-    <p>Days of Classes: <input type="text" name="days" id="days" value={{recordToUpdate["days"]}}> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
-    <p><input type = "submit" value = "Update Class" /></p>
-</form>
-<button onclick="document.location='/calendar'">Return to Calendar</button>
+<div class="updateClass">
+    <h1>Update class "{{className}}"</h1>
+    {% if error%}
+        <p class="error">{{ error }}</p>
+    {% else %}
+        <p>Add Class Details Below!</p>
+    {% endif %}
+    <form name = "addClass" action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST" onsubmit="return validateAddClassForm()">
+        <p>Class Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}> Enter a unique class name, class names cannot be reapeated </p>
+        <p>Class Time Start: <input type="number" name="class_time_start" id="class_time_start" value={{recordToUpdate["class_time_start"]}}> Enter military time (e.g. 730, 1130)</p>
+        <p>Class Time End: <input type="number" name="class_time_end" id="class_time_end" value={{recordToUpdate["class_time_end"]}}> Enter military time (e.g. 730, 1130)</p>
+        <p>Days of Classes: <input type="text" name="days" id="days" value={{recordToUpdate["days"]}}> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
+        <p><input type = "submit" value = "Update Class" /></p>
+    </form>
+    <button onclick="document.location='/calendar'">Return to Calendar</button>
+</div>
 {% endblock %}

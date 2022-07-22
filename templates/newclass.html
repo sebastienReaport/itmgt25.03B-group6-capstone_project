@@ -9,11 +9,6 @@
 <!-- Insert Body Here -->
 {% block body %}
 
-<!-- Error Messages -->
-{% if error %}
-    <div class="error">{{ error }}</div>
-{% endif %}
-
 <!-- Content Proper -->
 <div class="header">
     <div class="title"><h1>Scheduler</h1></div>
@@ -23,6 +18,11 @@
 </div>
 <div class="addClass">
     <h1>Add New Schedule </h1>
+    {% if error%}
+        <p class="error">{{ error }}</p>
+    {% else %}
+        <p>Add Class Details Below!</p>
+    {% endif %}
     <form name = "addClass" action="http://localhost:5000/newclass" method = "POST" onsubmit="return validateAddClassForm()">
         {% if formResponse %}
         <p>Class Name: <input type="text" name="class_name" id="class_name" value={{formResponse["class_name"]}}> Enter a unique class name, class names cannot be reapeated</p>

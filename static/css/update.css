@@ -1,19 +1,32 @@
+/* Fonts */
 @font-face {
     font-family: "Proxima";
     src: url("../fonts/ProximaNovaFont.otf");
 }
 
-.error {
-    font-size: 20px;
-    color: gray;
-    padding: 10px;
-    background-color: rgb(253, 223, 213);
-    width: 50%;
+@font-face {
+    font-family: 'RobotoNormal';
+    font-style: normal;
+    font-weight: 300;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
+
+@font-face {
+    font-family: 'RobotoBold';
+    font-style: normal;
+    font-weight: 700;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* End of Fonts */
 
 body {
     background-color: rgb(213, 253, 253);
     background-image: url(schedule_img.png);
+    margin: 0px;
 }
 
 /*Header Formatting For Inner Pages*/
@@ -64,3 +77,55 @@ body {
     color: rgb(213, 253, 253);
 }
 /* End of Header Formatting */
+
+/* Add Class Formatting */
+.updateClass {
+    font-family: 'RobotoNormal';
+    margin: 20px;
+}
+
+.updateClass input[type=submit] {
+    font-family: 'RobotoBold';
+    font-size: large;
+    color: rgb(5,108,108);
+    width: fit-content;
+    padding: 10px;
+    background-color:  rgb(155, 244, 244);
+    border-width: thin;
+    border-radius: 10px;
+}
+
+.updateClass input[type=submit]:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
+}
+
+.updateClass button {
+    font-family: "RobotoBold";
+    font-size: large;
+    color: rgb(3,70,70);
+    height: 50px;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color:  rgb(155, 244, 244);
+    border-radius: 10px;
+    position:absolute;
+    right: 20px;
+}
+
+.updateClass button:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
+}
+
+.updateClass h1 {
+    font-family: "RobotoBold";
+    margin-bottom: 0px;
+}
+
+.error {
+    color: red;
+}
+
+/* End of Add Class Formatting */

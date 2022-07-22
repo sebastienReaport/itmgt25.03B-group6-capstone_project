@@ -23,39 +23,10 @@
 }
 /* End of Fonts */
 
-.parameters{
-    display: grid;
-    grid-template-columns: 200px auto;
-}
-
-.days{
-    background-color: aqua;
-}
-
-.times{
-    display: grid;
-    grid-template-columns: auto;
-}
-
-.timeslots{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    height: 200px;
-    background-color: bisque;
-}
-
 body {
     background-color: rgb(213, 253, 253);
     background-image: url(schedule_img.png);
-}
-
-.error {
-    font-size: 20px;
-    color: gray;
-    padding: 10px;
-    background-color: rgb(253, 223, 213);
-    width: 50%;
+    margin: 0px;
 }
 
 /*Header Formatting For Inner Pages*/
@@ -107,12 +78,21 @@ body {
 }
 /* End of Header Formatting */
 
-.addClass input[type=submit] {
+/* Add Class Formatting */
+.addClass {
     font-family: 'RobotoNormal';
-    height: 30px;
-    width: 100px;
+    margin: 20px;
+}
+
+.addClass input[type=submit] {
+    font-family: 'RobotoBold';
+    font-size: large;
+    color: rgb(5,108,108);
+    width: fit-content;
+    padding: 10px;
     background-color:  rgb(155, 244, 244);
     border-width: thin;
+    border-radius: 10px;
 }
 
 .addClass input[type=submit]:hover {
@@ -141,9 +121,12 @@ body {
 
 .addClass h1 {
     font-family: "RobotoBold";
+    margin-bottom: 0px;
 }
 
-.addClass {
-    font-family: 'RobotoNormal';
+.error {
+    color: red;
 }
+
+/* End of Add Class Formatting */
 
