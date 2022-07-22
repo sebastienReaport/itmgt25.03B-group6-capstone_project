@@ -83,7 +83,7 @@ function get_day(day){
       case 5:
           return("Friday");
       case 6:
-          return("saturday");
+          return("Saturday");
 
   }
 }
