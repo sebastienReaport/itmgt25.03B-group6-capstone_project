@@ -127,7 +127,7 @@ def login():
             listOfUsers = get_users()
             for users in listOfUsers:
                 if users == formResponse.get("newUser"):
-                    return redirect(url_for('newUser'))
+                    return render_template('login.html', listOfUsers = listOfUsers, table = generalTable, timeSlots = timeSlots, error = "Username Already Taken!")
             #Add new username to database
             listOfUsers.append(formResponse.get("newUser"))
             with open(pathToRecords, "w") as f:
@@ -219,16 +219,16 @@ def add_new_class():
             daysWithClasses = records["days"].split(",")
             if records["class_name"] == formResponse.get("class_name"):
                 error = f"Class '{class_name}' already exists! Write a new name or edit the class instead!"
-                return render_template('newclass.html', table = scheduleTable, error = error, formResponse = formResponse)
+                return render_template('newclass.html', table = scheduleTable, error = error, formResponse = formResponse, currentUser = currentUser)
             elif form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {class_name}!"
-                        return render_template('newclass.html', error = error, formResponse = formResponse)
+                        return render_template('newclass.html', error = error, formResponse = formResponse, currentUser = currentUser)
         classRecords.append(formResponse)
         return redirect(url_for('index'))
     else:
-        return render_template('newclass.html')
+        return render_template('newclass.html', currentUser = currentUser)
 
 #App Code for Edit Class Page
 @app.route('/update/<className>', methods= ['POST','GET'])
@@ -248,7 +248,7 @@ def update(className):
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {record_name}!"
-                        return render_template('update.html', recordToUpdate = formResponse, error = error)
+                        return render_template('update.html', recordToUpdate = formResponse, error = error, currentUser = currentUser)
         #Update Class when Clear
         for records in classRecords:
             if records["class_name"] == className:
@@ -263,7 +263,7 @@ def update(className):
             if records["class_name"] == className:
                 recordToUpdate.update(records)
                 break
-        return render_template('update.html', recordToUpdate = recordToUpdate)
+        return render_template('update.html', recordToUpdate = recordToUpdate, currentUser = currentUser)
 
 #App Code for Delete Class Page
 @app.route('/delete/', methods= ['POST','GET'])
@@ -282,7 +282,7 @@ def delete():
                 classRecords.remove(records)
         return redirect(url_for('index'))
     else:
-        return render_template('delete.html', classRecords = classRecords)
+        return render_template('delete.html', classRecords = classRecords, currentUser = currentUser)
 
 if __name__ == '__main__':
     app.run(debug=True)

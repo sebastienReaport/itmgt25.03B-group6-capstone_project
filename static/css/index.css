@@ -1,25 +1,27 @@
+/* Fonts */
 @font-face {
     font-family: "Proxima";
     src: url("../fonts/ProximaNovaFont.otf");
 }
 
-.naviLinks {
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto auto auto auto auto;
-    width: 100%;
+@font-face {
+    font-family: 'RobotoNormal';
+    font-style: normal;
+    font-weight: 300;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-.button {
-    height: 50px;
-    width: 100px;
-    background-color:  rgb(155, 244, 244);
+@font-face {
+    font-family: 'RobotoBold';
+    font-style: normal;
+    font-weight: 700;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
-
-.button:hover {
-    transition: 0.2s ease-in;
-    background-color: rgb(8,164,164);
-}
+/* End of Fonts */
 
 .center {
     width: 100%;
@@ -28,10 +30,18 @@
     align-items: center;
 }
 
+body {
+    background-color: rgb(213, 253, 253);
+    background-image: url(schedule_img.png);
+    margin: 0px;
+}
+
+
+/*Header Formatting For Inner Pages*/
 .header {
     display: grid;
     width: 100%;
-    grid-template-columns: auto auto 145px;
+    grid-template-columns: 195px auto auto 145px;
     background-color: rgb(5,108,108);
 }
 
@@ -43,12 +53,22 @@
     margin: 0px;
     margin-left: 10px;
     padding-left: 20px;
-    padding-right: 20px;
     background-color: rgb(8,164,164);
     height: 80%;
-    width: fit-content;
     border-radius: 10px;
     color: rgb(213, 253, 253);
+}
+
+.pageTitle{
+    font-family: "Proxima";
+    color: rgb(213, 253, 253);
+    display: flex;
+    align-items: center;
+    align-self: center;
+    margin: 0px;
+    margin-left: 20px;
+    height: 80%;
+    width: 100%;
 }
 
 .time{
@@ -64,7 +84,41 @@
     padding-right: 20px;
     color: rgb(213, 253, 253);
 }
+/* End of Header Formatting */
 
+
+/*Navigation Panel Formatting*/
+.naviLinks {
+    font-family: "RobotoNormal";
+    color: rgb(5,108,108);
+    display: grid;
+    align-items: center;
+    align-self: center;
+    grid-template-columns: auto auto auto auto auto;
+    width: 90%;
+    margin: auto;
+}
+
+.button {
+    font-family: "RobotoBold";
+    font-size: large;
+    color: rgb(3,70,70);
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: fit-content;
+    background-color:  rgb(155, 244, 244);
+    border-radius: 10px;
+}
+
+.button:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
+}
+/*End of Navigation Panel Formatting*/
+
+
+/*Calendar Formatting*/
 table {
     border: 1px solid;
     width: 90%;
@@ -75,7 +129,35 @@ td,th{
     padding: 10px;
 }
 
-body {
-    background-color: rgb(213, 253, 253);
-    background-image: url(schedule_img.png);
+.headers{
+    font-family: "RobotoBold";
+    font-size: x-large;
+    color: rgb(3,70,70);
 }
+
+.timeslots{
+    font-size: larger;
+    color: rgb(5,108,108);
+    font-family: "RobotoBold";
+}
+
+.classes{
+    font-family: "RobotoBold";
+}
+
+a:link{
+    font-size: large;
+    color: rgb(2,33,33);
+    text-decoration: none;
+}
+
+a:visited{
+    color: rgb(2,33,33);
+}
+
+a:hover{
+    transition: 0.2s ease-in;
+    color: rgb(5,108,108);
+    text-decoration: underline;
+}
+/*End of Calendar Formatting*/

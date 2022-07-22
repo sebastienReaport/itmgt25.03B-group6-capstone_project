@@ -1,7 +1,27 @@
+/* Fonts */
 @font-face {
     font-family: "Proxima";
     src: url("../fonts/ProximaNovaFont.otf");
 }
+
+@font-face {
+    font-family: 'RobotoNormal';
+    font-style: normal;
+    font-weight: 300;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+    font-family: 'RobotoBold';
+    font-style: normal;
+    font-weight: 700;
+    src: 
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url('../fonts/roboto-v30-latin/roboto-v30-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+/* End of Fonts */
 
 .center {
     width: 100%;
@@ -10,33 +30,80 @@
     align-items: center;
 }
 
+body {
+    background-color: rgb(213, 253, 253);
+    margin: 0px;
+    background-image: url(schedule_img.png);
+}
+
+/* Action Bar Formatting */
 .actionBar{
+    font-family: "RobotoNormal";
     display: grid;
     align-items: center;
     grid-template-columns: auto auto auto;
     column-gap: 10px;
-    width: 100%;
-    margin: 10px;
+    width: 90%;
+    margin: auto;
+}
+
+.h2{
+    font-family: "RobotoBold";
+    color: rgb(5,108,108);
+}
+
+.selectUser {
+    align-self: center;
+}
+
+.selectUser input {
+    height: 30px;
+    width: 100px;
+    background-color:  rgb(155, 244, 244);
+    border-width: thin;
+}
+
+.selectUser input:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
 }
 
 .newUser{
     align-self: center;
+    margin: 0px;
 }
 
-.selectUser {
-    margin-left: 60px;
+.newUser input[type=submit]{
+    height: 30px;
+    width: 100px;
+    background-color:  rgb(155, 244, 244);
+    border-width: thin;
 }
 
-table {
-    border: 1px solid;
-    width: 90%;
+.newUser input[type=submit]:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
 }
 
-td,th{
-    border: 1px solid;
-    padding: 10px;
+.error{
+    color: red;
 }
 
+.deleteUser{
+    align-self: center;
+}
+
+.deleteUser input {
+    height: 30px;
+    width: 100px;
+    background-color:  rgb(155, 244, 244);
+    border-width: thin;
+}
+
+.deleteUser input:hover {
+    transition: 0.2s ease-in;
+    background-color: rgb(8,164,164);
+}
 
 /*Header Formatting*/
 .header {
@@ -76,44 +143,44 @@ td,th{
     color: rgb(213, 253, 253);
 }
 
-body {
-    background-color: rgb(213, 253, 253);
-    margin: 0px;
-    background-image: url(schedule_img.png);
+/*End of Header Formatting*/
+
+hr{
+    border: 0;
+    border-top: 5px solid rgb(5,108,108);
 }
 
-.selectUser input {
-    height: 30px;
-    width: 100px;
-    background-color:  rgb(155, 244, 244);
-    border-width: thin;
+/*Calendar Formatting*/
+.tableTitle{
+    font-family: "RobotoBold";
+    color: rgb(5,108,108);
 }
 
-.selectUser input:hover {
-    transition: 0.2s ease-in;
-    background-color: rgb(8,164,164);
+table {
+    border: 1px solid;
+    width: 90%;
 }
 
-.deleteUser input {
-    height: 30px;
-    width: 100px;
-    background-color:  rgb(155, 244, 244);
-    border-width: thin;
+td,th{
+    border: 1px solid;
+    padding: 10px;
 }
 
-.deleteUser input:hover {
-    transition: 0.2s ease-in;
-    background-color: rgb(8,164,164);
+.headers{
+    font-family: "RobotoBold";
+    font-size: x-large;
+    color: rgb(3,70,70);
 }
 
-.newUser input[type=submit] {
-    height: 30px;
-    width: 100px;
-    background-color:  rgb(155, 244, 244);
-    border-width: thin;
+.timeslots{
+    font-size: larger;
+    color: rgb(5,108,108);
+    font-family: "RobotoBold";
 }
 
-.newUser input[type=submit]:hover {
-    transition: 0.2s ease-in;
-    background-color: rgb(8,164,164);
+.classes{
+    font-family: "RobotoBold";
+    font-size: large;
+    color: rgb(2,33,33);
 }
+/*End of Calendar Formatting*/

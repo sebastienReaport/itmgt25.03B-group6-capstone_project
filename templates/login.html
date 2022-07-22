@@ -20,7 +20,7 @@
         <h2>Select User!</h2>
         <form name = "selectUser" action="http://localhost:5000/calendar" method = "POST" onsubmit="return validateSelectUserForm()">
             <label for="login">Whose calendar do you want to access?</label>
-            <br>
+            <br><br>
             <select name="username" id="login">
                 {% for users in listOfUsers %}
                 <option value={{users}}>{{users}}</option>
@@ -32,6 +32,12 @@
 
     <div class="newUser">
         <h2>Or, you can create a new user!</h2>
+        {% if error %}
+            <label for="deleteUser" class="error">{{error}}</label>
+        {% else %}
+            <label for="deleteUser">Enter new username!</label>
+        {% endif %}
+        <br>
         <form name = "newUserForm" action="http://localhost:5000/" method = "POST" onsubmit="return validateNameForm()" required>
             <p>Username: <input type="text" name="newUser" id="newUser"></p>
             <p><input type = "submit" value = "Create User"/></p>
@@ -42,7 +48,7 @@
         <h2>You can also delete a user!</h2>
         <form action="http://localhost:5000/" method = "POST">
             <label for="deleteUser">Which user do you want to delete?</label>
-            <br>
+            <br><br>
             <select name="deleteUser" id="deleteUser">
                 {% for users in listOfUsers %}
                 <option value={{users}}>{{users}}</option>
@@ -52,12 +58,15 @@
         </form>
     </div>
 </div>
-<div class="center"><h1>Check Everyone's Schedule!</h1></div>
+
+<hr>
+
+<div class="center"><h1 class="tableTitle">Check Everyone's Schedule!</h1></div>
 <div class="center">
     <table class="schedule">
         <tr>
             {% for header in table.columns.values %}
-                <th>{{header}}</th>
+                <th class="headers">{{header}}</th>
             {% endfor %}
         </tr>
 
@@ -65,11 +74,11 @@
             <tr>
                 {% for cell in table.loc[row].values %}
                     {% if cell in timeSlots %}
-                    <td>
+                    <td class="timeslots">
                         {{cell}} 
                     </td>
                     {% else %}
-                    <td>
+                    <td class="classes">
                         {% for user in cell%}
                             {{user}} <br>
                         {% endfor %}  
