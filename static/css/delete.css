@@ -26,6 +26,7 @@
 body {
     background-color: rgb(213, 253, 253);
     background-image: url(schedule_img.png);
+    margin: 0px;
 }
 
 /*Header Formatting For Inner Pages*/

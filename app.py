@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
+from numpy import record
 import pandas as pd
 import json
 
 app = Flask(__name__)
-app.secret_key = b'wOwIdonTRealLYKnowWhatThisIsfor'
 
 #Create Schedule Base dataframe
 days_of_week = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
@@ -30,11 +30,13 @@ for day in days_of_week:
     generalTable[day] = scheduleFillers
 timeslot_and_index = dict(zip(timeSlots, scheduleTable.index)) #Same for generalTable
 
-#Create Classes List
+#Create Global Variables and Lists
 classRecords = list()
 currentUser = ""
 pathToRecords = ".\\records\\users.json"
 pathToSchedules = ".\\records\\schedules.json"
+currentlyBusy = list()
+currentlyFree = list()
 
 #Function that updates schedule table
 def edit_schedule_table(record, action):
@@ -153,9 +155,15 @@ def login():
         del_classes_in_table()
         classRecords.clear()
 
-        #Clear General table
+        #Clear General table and user availability
         for day in days_of_week:
             generalTable[day] = scheduleFillers
+        currentlyBusy.clear()
+        currentlyFree.clear()
+
+        #Get current time
+        timeNow = int(datetime.now().strftime('%H%M'))
+        dayNow = datetime.now().strftime('%A')
 
         #Check for New Users with no Sched
         listOfUsersWithSched = listOfUsers.copy()
@@ -165,10 +173,24 @@ def login():
 
         #Display Combined Calendar
         for user in listOfUsersWithSched:
+            busy = 0
             for record in listOfUserSchedules[user]:
                 edit_general_table(record, user)
+                #Get user availability
+                daysWithClasses = record["days"].split(",")
+                if timeNow >= int(record["class_time_start"]) and timeNow < int(record["class_time_end"]) and dayNow in daysWithClasses:
+                    busy += 1
+            #Add user availability
+            if busy == 0:
+                currentlyFree.append(user)
+            elif busy >= 1:
+                currentlyBusy.append(user)
 
-        return render_template('login.html', listOfUsers = listOfUsers, table = generalTable, timeSlots = timeSlots)
+        if len(currentlyFree) == 0:
+            currentlyFree.append("None")
+        if len(currentlyBusy) == 0:
+            currentlyBusy.append("None")
+        return render_template('login.html', listOfUsers = listOfUsers, table = generalTable, timeSlots = timeSlots, currentlyFree = currentlyFree, currentlyBusy = currentlyBusy)
 
 #App Code for Calendar Page
 @app.route('/calendar', methods= ['POST','GET'])
@@ -215,15 +237,15 @@ def add_new_class():
         for records in classRecords:
             record_start = int(records["class_time_start"])
             record_end = int(records["class_time_end"])
-            class_name = records["class_name"]
+            record_name = records["class_name"]
             daysWithClasses = records["days"].split(",")
-            if records["class_name"] == formResponse.get("class_name"):
-                error = f"Class '{class_name}' already exists! Write a new name or edit the class instead!"
+            if record_name == formResponse.get("class_name"):
+                error = f"Class '{record_name}' already exists! Write a new name or edit the class instead!"
                 return render_template('newclass.html', table = scheduleTable, error = error, formResponse = formResponse, currentUser = currentUser)
-            elif form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
+            elif form_start == record_start or form_end == record_end or (form_start > record_start and form_end < record_end) or (form_start > record_start and form_start < record_end) or (form_end > record_start and form_end < record_end) or (form_start < record_start and form_end > record_end):
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
-                        error = f"Schedule is in conflict with {class_name}!"
+                        error = f"Schedule is in conflict with {record_name}!"
                         return render_template('newclass.html', error = error, formResponse = formResponse, currentUser = currentUser)
         classRecords.append(formResponse)
         return redirect(url_for('index'))
@@ -253,7 +275,7 @@ def update(className):
             if record_name == formResponse.get("class_name") and formResponse.get("class_name") != className:
                 error = f"Class '{record_name}' already exists! Write a new name instead!"
                 return render_template('update.html', recordToUpdate = recordToUpdate, error = error, currentUser = currentUser, className = className)
-            if form_start > record_start and form_start < record_end or form_end > record_start and form_end < record_end:
+            if (form_start == record_start or form_end == record_end or (form_start > record_start and form_end < record_end) or (form_start > record_start and form_start < record_end) or (form_end > record_start and form_end < record_end) or (form_start < record_start and form_end > record_end)) and record_name != className:
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {record_name}!"

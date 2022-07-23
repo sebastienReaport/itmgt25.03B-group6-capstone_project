@@ -4,22 +4,23 @@
 {% block head %}
 <script src="{{ url_for('static', filename='javascript/index.js')}}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+<title>{{currentUser}}'s Schedule</title>
 {% endblock %}
 
 <!-- Insert Body Here -->
 {% block body %}
 <div class="header">
     <div class="title"><h1>Scheduler</h1></div>
-    <h1 class="pageTitle">{{currentUser}}'s Schedule </h1>
+    <h1 class="pageTitle">{{currentUser}}'s Schedule</h1>
     <h1 id="day" class="day">Monday 07/20/2022</h1>
     <h1 id="time"class="time">11:11:11</h1>
 </div>
 <div class="naviLinks">
     <h2>Click on the class to edit it!</h2>
     {% if currentClass == "none"%}
-        <h2>You currently have no classes right now!</h2>
+        <h2>You currently have <b>no classes</b> right now!</h2>
     {% else %}
-        <h2>You currently have {{currentClass}} right now!</h2>
+        <h2>You currently have <b>{{currentClass}}</b> right now!</h2>
     {% endif %}
     <button class="button" onclick="document.location='/newclass'">Add New Class</button>
     <button class="button" onclick="document.location='/delete'">Delete a Class</button>

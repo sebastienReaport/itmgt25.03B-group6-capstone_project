@@ -4,7 +4,7 @@
 {% block head %}
 <script src="{{ url_for('static', filename='javascript/login.js')}}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
-<title>Scheduler</title>
+<title>Scheduler: Login</title>
 {% endblock %}
 
 <!-- Insert Body Here -->
@@ -61,7 +61,9 @@
 
 <hr>
 
-<div class="center"><h1 class="tableTitle">Check Everyone's Schedule!</h1></div>
+<div class="center"><h1 class="tableTitle">Check Everyone's Schedule!</h1><br></div>
+<div class="center"><div class="currently">Currently Free: {% for user in currentlyFree %} {{user}}{{ ", " if not loop.last else "" }} {% endfor %}</div></div>
+<div class="center"><div class="currently">Currently Busy: {% for user in currentlyBusy %} {{user}}{{ ", " if not loop.last else "" }} {% endfor %}</div></div>
 <div class="center">
     <table class="schedule">
         <tr>
