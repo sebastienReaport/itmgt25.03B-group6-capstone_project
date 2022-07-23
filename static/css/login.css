@@ -163,13 +163,15 @@ hr{
 .tableTitle{
     font-family: "RobotoBold";
     color: rgb(3,70,70);
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 .currently{
     font-family: "RobotoBold";
-    font-size: x-large;
+    font-size: larger;
     color: rgb(5,108,108);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 table {

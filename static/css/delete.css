@@ -131,6 +131,9 @@ select {
 
 .classDeleter h1 {
     font-family: "RobotoBold";
+    color: rgb(3,70,70);
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 .classDeleter {
