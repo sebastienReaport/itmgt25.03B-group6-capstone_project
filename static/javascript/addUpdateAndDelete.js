@@ -79,13 +79,19 @@ function validateAddClassForm() {
         alert("All fields must be filled out!");
         return false;
     }else if (parseInt(class_time_start) >= parseInt(class_time_end)){
-        alert("Your class times will not work!");
+        alert("Your event times will not work!");
         return false;
     }else if (parseInt(class_time_start) < startTime || parseInt(class_time_start) > endTime){
-        alert("Your class times go beyond the scope of the calendar!");
+        alert("Your event times go beyond the scope of the calendar!");
         return false;
     }else if (parseInt(class_time_end) < startTime || parseInt(class_time_end) > endTime){
-        alert("Your class times go beyond the scope of the calendar!");
+        alert("Your event times go beyond the scope of the calendar!");
+        return false;
+    }else if (parseInt(class_time_start) % 100 != 0 && (parseInt(class_time_start) - 30) % 100 != 0){
+        alert("Only Hours and Half-hours are Allowed!");
+        return false;
+    }else if (parseInt(class_time_end) % 100 != 0 && (parseInt(class_time_end) - 30) % 100 != 0){
+        alert("Only Hours and Half-hours are Allowed!");
         return false;
     }
 
@@ -102,7 +108,7 @@ function warning(e)
 {
     var x = document.forms["classDeleter"]["class_name"].value;
     if (x == ""){
-        alert("There are currently no classes to delete.");
+        alert("There are currently no events to delete.");
             e.preventDefault();
     }
     else if(!confirm("Do you really want to delete?")){

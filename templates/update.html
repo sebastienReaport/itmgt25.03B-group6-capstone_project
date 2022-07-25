@@ -5,7 +5,7 @@
 <script src="{{ url_for('static', filename='javascript/addUpdateAndDelete.js')}}"> </script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/update.css')}}">
 <link rel="icon" href="{{ url_for('static', filename='css/icon.png')}}">
-<title>Update class "{{className}}"</title>
+<title>Update event "{{className}}"</title>
 {% endblock %}
 
 <!-- Insert Body Here -->
@@ -20,18 +20,18 @@
 </div>
 
 <div class="updateClass">
-    <h1>Update class "{{className}}"</h1>
+    <h1>Update event "{{className}}"</h1>
     {% if error%}
         <p class="error">{{ error }}</p>
     {% else %}
-        <p>Add Class Details Below!</p>
+        <p>Add Event Details Below!</p>
     {% endif %}
     <form name = "addClass" action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST" onsubmit="return validateAddClassForm()">
-        <p>Class Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}> Enter a unique class name, class names cannot be reapeated </p>
-        <p>Class Time Start: <input type="number" name="class_time_start" id="class_time_start" value={{recordToUpdate["class_time_start"]}}> Enter military time (e.g. 730, 1130)</p>
-        <p>Class Time End: <input type="number" name="class_time_end" id="class_time_end" value={{recordToUpdate["class_time_end"]}}> Enter military time (e.g. 730, 1130)</p>
-        <p>Days of Classes: <input type="text" name="days" id="days" value={{recordToUpdate["days"]}}> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
-        <p><input type = "submit" value = "Update Class" /></p>
+        <p>Event Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}> Enter a unique event name, event names cannot be reapeated </p>
+        <p>Event Time Start: <input type="number" name="class_time_start" id="class_time_start" value={{recordToUpdate["class_time_start"]}}> Enter military time (e.g. 730, 1130)</p>
+        <p>Event Time End: <input type="number" name="class_time_end" id="class_time_end" value={{recordToUpdate["class_time_end"]}}> Enter military time (e.g. 730, 1130)</p>
+        <p>Days of Event: <input type="text" name="days" id="days" value={{recordToUpdate["days"]}}> Enter days separted by commas (eg. Monday,Wednesday,Friday)</p>
+        <p><input type = "submit" value = "Update Event" /></p>
     </form>
     <button onclick="document.location='/calendar'">Return to Calendar</button>
 </div>

@@ -109,6 +109,16 @@ def get_user_schedule():
     finally:
         return listOfUserSchedules
 
+#Function that adds to user list
+def add_users(newUserList):
+    with open(pathToRecords, "w") as f:
+        json.dump(newUserList,f)
+
+#Function that adds to schedule
+def add_user_schedule(newScheduleList):
+    with open(pathToSchedules, "w") as f:
+        json.dump(newScheduleList,f)
+
 #Function that adds schedules to table
 def add_classes_to_table():
     for record in classRecords:
@@ -132,8 +142,7 @@ def login():
                     return render_template('login.html', listOfUsers = listOfUsers, table = generalTable, timeSlots = timeSlots, error = "Username Already Taken!")
             #Add new username to database
             listOfUsers.append(formResponse.get("newUser"))
-            with open(pathToRecords, "w") as f:
-                    json.dump(listOfUsers,f)
+            add_users(listOfUsers)
         elif "deleteUser" in formResponse:
             #Check if username already exists and then delete it
             listOfUsers = get_users()
@@ -143,11 +152,9 @@ def login():
                 listOfUserSchedules = get_user_schedule()
                 if userToDelete in listOfUserSchedules.keys():
                     del listOfUserSchedules[userToDelete]
-                    with open(pathToSchedules, "w") as f:
-                        json.dump(listOfUserSchedules,f)
+                    add_user_schedule(listOfUserSchedules)
             #Update database            
-            with open(pathToRecords, "w") as f:
-                json.dump(listOfUsers,f)
+            add_users(listOfUsers)
         return redirect(url_for('login'))
     else:
         listOfUsers = get_users()
@@ -211,8 +218,7 @@ def index():
         listOfUserSchedules = get_user_schedule()
         updateUserInfo = {currentUser: classRecords}
         listOfUserSchedules.update(updateUserInfo)
-        with open(pathToSchedules, "w") as f:
-            json.dump(listOfUserSchedules,f)
+        add_user_schedule(listOfUserSchedules)
 
     #Check current class
     timeNow = int(datetime.now().strftime('%H%M'))
@@ -226,7 +232,7 @@ def index():
     return render_template('calendar.html', table = scheduleTable, currentUser = currentUser, currentClass = currentClass, timeSlots = timeSlots)
 
 #App Code for New Class Page
-@app.route('/newclass', methods= ['POST','GET'])
+@app.route('/newevent', methods= ['POST','GET'])
 def add_new_class():
     if request.method == "POST":
         formResponse = request.form
@@ -240,17 +246,17 @@ def add_new_class():
             record_name = records["class_name"]
             daysWithClasses = records["days"].split(",")
             if record_name == formResponse.get("class_name"):
-                error = f"Class '{record_name}' already exists! Write a new name or edit the class instead!"
-                return render_template('newclass.html', table = scheduleTable, error = error, formResponse = formResponse, currentUser = currentUser)
+                error = f"'{record_name}' already exists! Enter a new name or edit the event instead!"
+                return render_template('newevent.html', table = scheduleTable, error = error, formResponse = formResponse, currentUser = currentUser)
             elif form_start == record_start or form_end == record_end or (form_start > record_start and form_end < record_end) or (form_start > record_start and form_start < record_end) or (form_end > record_start and form_end < record_end) or (form_start < record_start and form_end > record_end):
                 for classDay in daysWithClasses:
                     if classDay in formDaysWithClasses:
                         error = f"Schedule is in conflict with {record_name}!"
-                        return render_template('newclass.html', error = error, formResponse = formResponse, currentUser = currentUser)
+                        return render_template('newevent.html', error = error, formResponse = formResponse, currentUser = currentUser)
         classRecords.append(formResponse)
         return redirect(url_for('index'))
     else:
-        return render_template('newclass.html', currentUser = currentUser)
+        return render_template('newevent.html', currentUser = currentUser)
 
 #App Code for Edit Class Page
 @app.route('/update/<className>', methods= ['POST','GET'])
@@ -273,7 +279,7 @@ def update(className):
             record_end = int(records["class_time_end"])
             daysWithClasses = records["days"].split(",")
             if record_name == formResponse.get("class_name") and formResponse.get("class_name") != className:
-                error = f"Class '{record_name}' already exists! Write a new name instead!"
+                error = f"'{record_name}' already exists! Enter a new name for it instead!"
                 return render_template('update.html', recordToUpdate = recordToUpdate, error = error, currentUser = currentUser, className = className)
             if (form_start == record_start or form_end == record_end or (form_start > record_start and form_end < record_end) or (form_start > record_start and form_start < record_end) or (form_end > record_start and form_end < record_end) or (form_start < record_start and form_end > record_end)) and record_name != className:
                 for classDay in daysWithClasses:
@@ -295,12 +301,12 @@ def update(className):
 def delete():
     if request.method == "POST":
         formResponse = request.form
-        if formResponse["submit"] == "Delete Class":
+        if formResponse["submit"] == "Delete Event":
             for records in classRecords:
                 if records["class_name"] == formResponse.get("class_name"):
                     edit_schedule_table(records, "Delete")
                     classRecords.remove(records)
-        elif formResponse["submit"] == "Delete All Classes":
+        elif formResponse["submit"] == "Delete All Events":
             recordsToDelete = classRecords.copy()
             for records in recordsToDelete:
                 edit_schedule_table(records, "Delete")

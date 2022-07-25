@@ -4,6 +4,7 @@
 {% block head %}
 <script src="{{ url_for('static', filename='javascript/index.js')}}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+<link rel="icon" href="{{ url_for('static', filename='css/icon.png')}}">
 <title>{{currentUser}}'s Schedule</title>
 {% endblock %}
 
@@ -16,14 +17,14 @@
     <h1 id="time"class="time">11:11:11</h1>
 </div>
 <div class="naviLinks">
-    <h2>Click on the class to edit it!</h2>
+    <h2>Click on an event to edit it!</h2>
     {% if currentClass == "none"%}
-        <h2>You currently have <b>no classes</b> right now!</h2>
+        <h2>You currently have <b>no events</b> right now!</h2>
     {% else %}
         <h2>You currently have <b>{{currentClass}}</b> right now!</h2>
     {% endif %}
-    <button class="button" onclick="document.location='/newclass'">Add New Class</button>
-    <button class="button" onclick="document.location='/delete'">Delete a Class</button>
+    <button class="button" onclick="document.location='/newevent'">Add New Event</button>
+    <button class="button" onclick="document.location='/delete'">Delete an Event</button>
     <button class="button" onclick="document.location='/'">Switch User</button>
 </div>
 <div class="center">

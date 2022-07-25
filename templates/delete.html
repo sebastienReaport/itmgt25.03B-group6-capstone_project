@@ -5,7 +5,7 @@
 <script src="{{ url_for('static', filename='javascript/addUpdateAndDelete.js')}}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/delete.css')}}">
 <link rel="icon" href="{{ url_for('static', filename='css/icon.png')}}">
-<title>Delete a Class</title>
+<title>Delete an Event</title>
 {% endblock %}
 
 <!-- Insert Body Here -->
@@ -18,17 +18,17 @@
 </div>
 
 <div class="classDeleter">
-    <h1>Delete a Class</h1>
+    <h1>Delete an Event</h1>
     <form name = "classDeleter" action="http://localhost:5000/delete" method = "POST">
-        <label for="classNames">Choose Class to Delete</label>
+        <label for="classNames">Choose Event to Delete</label>
         <br>
         <select name="class_name" id="classNames">
             {% for classRecord in classRecords %}
             <option value={{classRecord["class_name"]}}>{{classRecord["class_name"]}}</option>
             {% endfor %}
         </select>
-        <p><input type = "submit" name = "submit" value = "Delete Class" onclick="warning(event)"/></p>
-        <p><div class="allClassesDelete"><input type = "submit" name = "submit" value = "Delete All Classes" onclick="warning(event)"/></div></p>
+        <p><input type = "submit" name = "submit" value = "Delete Event" onclick="warning(event)"/></p>
+        <p><div class="allClassesDelete"><input type = "submit" name = "submit" value = "Delete All Events" onclick="warning(event)"/></div></p>
     </form>
     <button onclick="document.location='/calendar'">Return to Calendar</button>
 </div>
