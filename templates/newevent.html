@@ -23,7 +23,7 @@
     {% if error%}
         <p class="error">{{ error }}</p>
     {% else %}
-        <p>Add Class Details Below!</p>
+        <p>Enter Event Details Below!</p>
     {% endif %}
     <form name = "addClass" action="http://localhost:5000/newevent" method = "POST" onsubmit="return validateAddClassForm()">
         {% if formResponse %}

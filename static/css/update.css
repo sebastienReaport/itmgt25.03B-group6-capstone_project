@@ -122,7 +122,9 @@ body {
 .updateClass h1 {
     font-family: "RobotoBold";
     margin-bottom: 0px;
-}
+    color: rgb(3,70,70);
+    text-decoration: underline;
+    text-decoration-style: dotted;
 
 .error {
     color: red;
