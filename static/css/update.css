@@ -125,6 +125,7 @@ body {
     color: rgb(3,70,70);
     text-decoration: underline;
     text-decoration-style: dotted;
+}
 
 .error {
     color: red;
