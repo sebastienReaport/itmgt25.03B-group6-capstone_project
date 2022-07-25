@@ -24,7 +24,7 @@
     {% if error%}
         <p class="error">{{ error }}</p>
     {% else %}
-        <p>Add Event Details Below!</p>
+        <p>Enter Event Details Below!</p>
     {% endif %}
     <form name = "addClass" action='http://localhost:5000/update/{{recordToUpdate["class_name"]}}' method = "POST" onsubmit="return validateAddClassForm()">
         <p>Event Name: <input type="text" name="class_name" id="class_name" value={{recordToUpdate["class_name"]}}> Enter a unique event name, event names cannot be reapeated </p>
